@@ -2,15 +2,27 @@ import java.util.Scanner;
 
 public class NumberToWords {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        /*Scanner scanner = new Scanner(System.in);
         int t = scanner.nextInt();
         while(t-->0) {
             long n = scanner.nextLong();
             if(n == 0){
                 System.out.println("Zero");
             } else {
-                System.out.println(trillion(n / 1000000000000L) + billion((n / 1000000000)%1000) + million((n / 1000000) % 1000) + thousand((n / 1000) % 1000) + hundred(n % 1000));
+                System.out.println((trillion(n / 1000000000000L) + billion((n / 1000000000)%1000) + million((n / 1000000) % 1000) + thousand((n / 1000) % 1000) + hundred(n % 1000)).trim());
             }
+        }*/
+
+        int t = 1;
+        long n = 141L;
+        System.out.println(n%10);
+        while(t-->0) {
+            if(n == 0){
+                System.out.println("Zero");
+            } else {
+                System.out.println((trillion(n / 1000000000000L) + billion((n / 1000000000)%1000) + million((n / 1000000) % 1000) + thousand((n / 1000) % 1000) + hundred(n % 1000)).trim());
+            }
+            n++;
         }
     }
 
@@ -53,11 +65,15 @@ public class NumberToWords {
         if(number == 0){
             return "";
         }
-        if(((number/100) == 0) && (((number/10)%10) == 0)){
-            return word((int)number);
+        boolean canBeSingleWord = (((number/10)%10) == 0) || (((number/10)%10) == 1) || ((number%10) == 0);
+        if((number/100) == 0){
+            if(canBeSingleWord){
+                return word((int)number);
+            }
+            return word((int) (((number/10) % 10) * 10)) + word((int)number%10);
         }
-        if((((number/100) == 0) && (((number/10)%10) == 1)) || (((number/100) == 0) && ((number%10) == 0))){
-            return word((int)number);
+        if(canBeSingleWord){
+            return word((int)number/100) + "Hundred " + word((int)number%100);
         }
         return word((int)number/100) + "Hundred " + word((int) (((number/10) % 10) * 10)) + word((int)number%10);
     }
@@ -91,6 +107,6 @@ public class NumberToWords {
         if(n == 70) return "Seventy ";
         if(n == 80) return "Eighty ";
         if(n == 90) return "Ninety ";
-        return null;
+        return "";
     }
 }
